@@ -1,3 +1,7 @@
+from depurar_resumen import depurar_Resumen
+from crear_tabla_db import crear_tabla_db
+from existe_ticker import existe_ticker
+
 import requests
 from datetime import datetime, timedelta
 from time import sleep 
@@ -32,43 +36,6 @@ class Ticker:
         return 
 
 #____________________FUNCIONES____________________________
-def crear_tabla_db():
-    con = sqlite3.connect('TICKERS.db')
-    cursor = con.cursor()
-    res = cursor.execute("""
-    CREATE TABLE tickers (
-    Ticker STRING,
-    Fecha STRING,
-    Apertura FLOAT,
-    Cierre FLOAT,
-    Bajo FLOAT,
-    Alto FLOAT,
-    Volumen INTEGER);
-    """)
-    con.close()
-
-    con = sqlite3.connect('TICKERS.db')
-    cursor = con.cursor()
-    res = cursor.execute("""
-    CREATE TABLE resumen (
-    Ticker STRING,
-    Fecha_Inicio STRING,
-    Fecha_Fin STRING);
-    """)
-    con.close()
-
-    con = sqlite3.connect('TICKERS.db')
-    cursor = con.cursor()
-    res = cursor.execute("""
-    CREATE TABLE final (
-    Ticker STRING,
-    Fecha_Inicio STRING,
-    Fecha_Fin STRING);
-    """)
-    con.close()
-    return
-
-
 def guardar_datos_db():
     con = sqlite3.connect('TICKERS.db')
     cursor = con.cursor()
@@ -96,175 +63,6 @@ def guardar_datos_db():
         con.commit()
     return
 
-def depurar_Resumen():
-    con = sqlite3.connect('TICKERS.db')
-    cursor = con.cursor()
-    res2=cursor.execute("""
-    SELECT resumen.Ticker, resumen.Fecha_Inicio, resumen.Fecha_Fin
-    FROM resumen
-    """)
-
-    listado_tickers=[]
-
-    for row in res2:
-        listado_tickers.append(row[0])  #guardo ticker
-
-    #elimino tickers repetidos
-    resum_unic_tickers=[]
-    for h in listado_tickers:
-        if h not in resum_unic_tickers:
-            resum_unic_tickers.append(h)
-
-    ticresum=[]
-    fecha_ini=[]
-    fecha_fin=[]
-    con = sqlite3.connect('TICKERS.db')
-    cursor = con.cursor()
-    res3=cursor.execute("""
-    SELECT resumen.Ticker, resumen.Fecha_Inicio, resumen.Fecha_Fin
-    FROM resumen
-    """)
-
-    
-    ticresum_por_ticker=[]
-    fechaini_por_ticker=[]
-    fechafin_por_ticker=[]
-    for p in resum_unic_tickers:
-        res4=cursor.execute(f"""
-        SELECT resumen.Ticker, resumen.Fecha_Inicio, resumen.Fecha_Fin
-        FROM resumen
-        WHERE resumen.Ticker='{p}';
-        """)
-
-        for row in res3:
-            fit = parse(row[1])
-            fi = datetime.date(fit) 
-            fientt=int(fi.strftime("%Y%m%d"))
-
-            fft = parse(row[2])
-            ff = datetime.date(fft)
-            ffentt=int(ff.strftime("%Y%m%d"))
-
-            ticresum.append(row[0])
-            fecha_ini.append(fientt)    #guardo fecha de inicio 
-            fecha_fin.append(ffentt)    #guardo fecha de fin
-
-        ticresum_por_ticker.append(ticresum)
-        fechaini_por_ticker.append(fecha_ini)
-        fechafin_por_ticker.append(fecha_fin)
-
-        fecha_ini=[]
-        fecha_fin=[]
-        ticresum=[]
-
-    con = sqlite3.connect('TICKERS.db')
-    cursor = con.cursor()
-
-    res5=cursor.execute("""
-    SELECT resumen.Ticker, resumen.Fecha_Inicio, resumen.Fecha_Fin
-    FROM resumen
-    """)
-    fidb=[]
-    ffdb=[]
-    tic=[]
-
-    for p in resum_unic_tickers:
-        for row in res5:
-            tic.append(row[0])
-            fidb.append(row[1])
-            ffdb.append(row[2])
-
-    for f in range((len(fidb))):
-        for e in range(len(fechaini_por_ticker)):
-            fit = parse(fidb[f])
-            fi = datetime.date(fit) 
-            fient=int(fi.strftime("%Y%m%d"))
-
-            fft = parse(ffdb[f])
-            ff = datetime.date(fft)
-            ffent=int(ff.strftime("%Y%m%d"))
-                
-            for fe in range(len(fechaini_por_ticker[e])):
-                if ticresum_por_ticker[e][fe]==tic[f] and fient>fechaini_por_ticker[e][fe] and fient<fechafin_por_ticker[e][fe] and ffent>fechaini_por_ticker[e][fe] and ffent<fechafin_por_ticker[e][fe]:
-                    fientsrt=str(fient)
-                    ffentstr=str(ffent)
-
-                    fii = datetime.strptime(fientsrt, '%Y%m%d')
-                    fii2 = datetime.date(fii)
-
-                    fff = datetime.strptime(ffentstr, '%Y%m%d')
-                    fff2 = datetime.date(fff)
-
-                    data=(tic[f], fii2, fff2)
-                    cursor.execute("INSERT INTO final (Ticker, Fecha_inicio, Fecha_Fin) VALUES(?, ?, ?)", data)
-                    con.commit()
-
-
-
-    con = sqlite3.connect('TICKERS.db')
-    cursor = con.cursor()
-    res2=cursor.execute("""
-    SELECT final.Ticker, final.Fecha_Inicio, final.Fecha_Fin
-    FROM final
-    """)
-
-
-    Ticker_def=[]
-    Fechaini_def=[]
-    Fechafin_def=[]
-    for row in res2:                  #guardo en lista datos a eliminar desde tabla "final"
-        Ticker_def.append(row[0])   
-        Fechaini_def.append(row[1])   
-        Fechafin_def.append(row[2])
-  
-
-    con = sqlite3.connect('TICKERS.db')
-    cursor = con.cursor()
-    res3=cursor.execute("""
-    SELECT resumen.Ticker, resumen.Fecha_Inicio, resumen.Fecha_Fin
-    FROM resumen
-    """)     
-    for row in res3:                   #guardo en lista datos de la tabla "resumen"
-        Ticker_def.append(row[0])   
-        Fechaini_def.append(row[1])   
-        Fechafin_def.append(row[2])   
-
-    datos3={
-        "Ticker": Ticker_def,
-        "Fecha_Inicio": Fechaini_def,
-        "Fecha_Fin": Fechafin_def
-        }
-
-
-    con = sqlite3.connect('TICKERS.db')
-    cursor = con.cursor()
-    res2=cursor.execute("""
-    DELETE FROM final;
-    """)
-    con.commit()
-
-
-    Tickers_Total_total=pd.DataFrame(data=datos3)
-    Tickers_Total_total=Tickers_Total_total.drop_duplicates(keep=False)
-
-    Tickers_Total_total = Tickers_Total_total.sort_values(['Ticker', 'Fecha_Inicio'],ascending=True)
-    return Tickers_Total_total
-
-
-def existe_ticker(nombre_ticker):
-        json_file=requests.get("https://api.polygon.io/v3/reference/tickers/"+nombre_ticker+"?apiKey=koTdrPqepxbon7yPbhPEejDv23UHe2Kw")
-        json_obj = json_file.json()
-
-        if(json_obj['status']=='NOT_FOUND'):      #si el ticker ingresado no existe
-            print('El ticker ingresado no existe dentro del API de "Polygon.io"\n')
-            return False
-                
-        else:                                     #si el ticker ingresado existe
-            print("El ticker ingresado corresponde a la empresa: ", json_obj['results']['name']+"\n")
-            return True
-
-
-
 def imprimir_Menu_Ppal():
     print("\n")
     print("----------------------------------MENU PRINCIPAL------------------------------------------------")
@@ -286,7 +84,7 @@ def imprimir_Menu_Visualiz():
 
 
 #________________________MAIN:PROGRAMA PRINCIPAL___________________________
-#crear_tabla_db()
+crear_tabla_db()
 
 opcion=imprimir_Menu_Ppal()     #se llama al Menú Principal para elejir las opciones
 
@@ -471,14 +269,21 @@ while opcion =="1" or opcion =="2":
 #                print(Resumen_Tickers)
 #                print("\n")
 #                print("Resumen depurado")
+
                 Tickers_Total_total=depurar_Resumen()
 
                 blankIndex=[''] * len(Tickers_Total_total)     #elimino el numero de fila (indice) para imprimir el dataframe
                 Tickers_Total_total.index=blankIndex
-                print("Los tickers guardados en la base de datos son:\n")
-                print(Tickers_Total_total)
+
+                if Total_Tickers.empty:
+                    print("La base de datos no posee datos aún")
+                else:
+                    print("Los tickers guardados en la base de datos son:\n")
+                    print(Tickers_Total_total)
 
                 opcion2=imprimir_Menu_Visualiz()    #Se vuelve a mostrar el Menú de Visualización
+
+
 
 
             elif opcion2=="2":
@@ -487,7 +292,10 @@ while opcion =="1" or opcion =="2":
                 grafico_ticker=input("Ingrese el Ticker a graficar: ")
                 grafico_ticker=grafico_ticker.upper()
 
-                if grafico_ticker in Total_Tickers.values:
+                if Total_Tickers.empty: 
+                    print("La base de datos no posee datos aún")
+
+                elif grafico_ticker in Total_Tickers.values:
                     Total_Tickers=Total_Tickers.set_index("Ticker")
                     Mostrar=Total_Tickers.loc[grafico_ticker,:]
                     Mostrar = Mostrar.sort_values('Fecha',ascending=True)
@@ -499,13 +307,15 @@ while opcion =="1" or opcion =="2":
                
                     plt.figure(figsize=(12, 6), dpi=80)
                     plt.plot(x, y1, color="blue", linewidth=2.5, label="Cierre")
- #                   plt.plot(x, y2, color="#808080", linewidth=2.5, label="Apertura")
-                    plt.plot(x, y3, color="red", linewidth=2.5, label="Bajo")
-                    plt.plot(x, y4, color="#228B22", linewidth=2.5, label="Alto")
+ #                   plt.plot(x, y2, color="#808080", linewidth=2, label="Apertura")
+                    plt.plot(x, y3, color="red", linewidth=1.5, label="Bajo")
+                    plt.plot(x, y4, color="#228B22", linewidth=1.5, label="Alto")
 
-                    plt.legend(loc='upper left')
+                    plt.legend(loc='upper right')
                     plt.xticks(rotation=90)
-#                    Mostrar.plot(kind="line", x="Fecha", y="Cierre", c= "green", figsize=(10,5))
+                    plt.title("Ticker: "+grafico_ticker)
+                    plt.xlabel('Fecha')
+                    plt.ylabel('Precio (USD)')
                     plt.show()
                 else:                  
                     print("El ticker ingresado no posee datos guardados")
