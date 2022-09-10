@@ -83,3 +83,4 @@ Posibles extras para el programa:
 
  1. [API de valores de finanzas] (https://polygon.io/docs/stocks/getting-started).
  2. [Libreria de base de datos] (https://docs.python.org/3/library/sqlite3.html).
+
