@@ -47,7 +47,7 @@ Una vez dentro del if, se solicita al usuario que ingrese un ticker. Debido a qu
 Se procede entonces a llamar la función "existe_ticker(nombre_ticker)", a la cual se le envía como parámetro este ticker ingresado por el usuario.
 La función "existe_ticker(nombre_ticker)", verifica si existe el ticker ingresado dentro de la base de datos de polygon.io. Para ello, envía un get al API con el ticker ingresado. La respuesta del API se convierte a formato json.
 Se pregunta mediante un if, si el valor de la clave 'status' devuelta por el API es 'NOT_FOUND'. Si este es el caso, se retorna de la función con un False, lo cual significa que el ticker no existe en la base de datos. Si el valor de la clave'status' es diferente de 'NOT_FOUND' significa que el ticker existe, entonces se ingresa al else del if, se imprime el nombre de la compañía correspondiente y se retorna de la función con un True.
-La función "existe_ticker(nombre_ticker)" utiliza la librería de Python "requests" para poder realizar el get al endpoint de polygon.io que permite saber si exite el ticker (https://polygon.io/docs/stocks/get_v3_reference_tickers__ticker), y si es el caso el nombre de la compañia correspondiente.
+La función "existe_ticker(nombre_ticker)" utiliza la librería de Python "requests" para poder realizar el get al endpoint de polygon.io que permite saber si existe el ticker (https://polygon.io/docs/stocks/get_v3_reference_tickers__ticker), y si es el caso el nombre de la compañia correspondiente.
 
 ![image](https://user-images.githubusercontent.com/88169218/189497093-30992e7c-36aa-41d7-9deb-2598d862d8c9.png)
 
@@ -62,13 +62,17 @@ Si el ticker existe, se ingresa dentro del cuerpo del if.
 
 ![image](https://user-images.githubusercontent.com/88169218/189499147-621587a7-4645-4ecf-b92c-963a4eac8976.png)
 
-A continuación, lo primero que se hace es conectarse a la base de datos SQL creada, y filtrar los datos guardados, que se correspondan con el nonbre de ticker ingresado. 
+A continuación, lo primero que se hace es conectarse a la base de datos SQL creada, y filtrar los datos guardados, que se correspondan con el nombre de ticker ingresado. 
 Esto se hace, para que posteriormente se pueda verificar mediante código, si dentro del rango de fechas de inicio y fin solicitados por el usuario, existe alguna fecha que ya fue solicitada por el usuario previamente y guardada en la base de datos. De esta manera, se evita solicitar datos al API una fecha solicitada previamente.
 Ej: Si tengo guardados los datos de un ticker desde el 2022/01/01 al 2022/07/01 y se solicita desde el 2021/01/01 al 2022/07/01, el programa solicita datos al API únicamente desde el 2021/01/01 al 2021/12/31.
 
 Se solicita entonces que el usuario ingrese una fecha de inicio y una fecha de fin (ver más adelante en este informe "Manejo de excepciones y errores del programa").
 Las fechas ingresadas por el usuario en formato string, son convertidas a formato de fecha mediante la función "parse" de la librería "dateutil.parser". 
-Se restan la fecha de fin menos la fecha de inicio para saber cuantos dias hay en el rango entre ambas fechas. Este número se convierte a entero y se utiliza en un bucle for, para guardar las fechas existentes dentro del rango solicitado, en una lista (lista_fechas). Se utiliza la funcion datetime (para tomar solo la fecha del formato) a las cuales se le suma un día mediante la funcion timedelta (ambas importadas desde la librería "datetime").
+Se restan la fecha de fin menos la fecha de inicio para saber cuantos dias hay en el rango entre ambas fechas. 
+
+![image](https://user-images.githubusercontent.com/88169218/189500612-57931f07-b172-4892-ae15-e7195de74e00.png)
+
+Este número se convierte a entero y se utiliza en un bucle for, para guardar las fechas existentes dentro del rango solicitado, en una lista (lista_fechas). Se utiliza la funcion datetime (para tomar solo la fecha del formato) a las cuales se le suma un día mediante la funcion timedelta (ambas importadas desde la librería "datetime").
 
 ![image](https://user-images.githubusercontent.com/88169218/189500165-f5f108c8-59ab-4d0d-af5e-6f7be5a34930.png)
 
