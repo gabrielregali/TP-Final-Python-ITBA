@@ -1,23 +1,13 @@
 # TP-Final-Python-ITBA
 TP Final Certificación Profesional Python ITBA 2022
 
-# TP Final Certificación Profesional Python
-
 ## Resumen
 
-Se pide implementar un programa que permita leer datos de una API de finanzas, guardarlos en una base de datos y graficarlos.
-
-## Entrega
-
-Fecha límite 30 de septiembre.
-
-El trabajo se entrega en grupos de hasta 5 personas y se piden lo siguientes entregables:
-
- - Informe de funcionalidad y diseño
- - Repositorio de github
+Se implementea un programa en código Python, que lee datos de una API de finanzas (https://polygon.io/docs/stocks/getting-started), los guarda en una base de datos y los grafica, de acuerdo a lo solicitado en la consigna (ver Consigna Final Tp.md)
 
 
-## Detalles de implementación
+
+## Informe de funcionalidad y diseño
 
 ### Menú principal
 
@@ -25,6 +15,12 @@ El programa debe presentar un menú principal donde puedan elegirse las siguient
 
  1. Actualización de datos
  2. Visualización de datos
+
+![image](https://user-images.githubusercontent.com/88169218/189489313-17839b56-50a9-4f2e-8618-efb3973cce92.png)
+
+
+
+
 
 ### Actualización de datos
 
