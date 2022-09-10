@@ -133,13 +133,21 @@ A continuación el código se conecta con la base de datos, y mediante bucles fo
 
 ![image](https://user-images.githubusercontent.com/88169218/189505222-1730e56f-06e2-4e7e-b012-6bf95d7a5112.png)
 
-Finalmente los datos guardados en estos 2 diccionarios se utilizan para armar 2 Dataframe:
+Los datos guardados en estos 2 diccionarios se utilizan para armar 2 Dataframe:
 - El dataframe "Total_Tickers" se utiliza para graficar posteriormente los datos de los tickers
 - El dataframe "Resumen_Tickers" se utiliza para mostrar posteriormente un resumen de los datos solicitados por ticker, por rango de fechas.
 
 ![image](https://user-images.githubusercontent.com/88169218/189505243-85303d3b-ceee-4159-af1e-e5ef87cd1416.png)
 
-Finalmente se llama al Menú de Visualización mediante la función imprimir_Menu_Visualiz.
+Finalmente se llama al Menú de Visualización mediante la función "imprimir_Menu_Visualiz".
+Este Menú permite seleccionar entre visualizar un Resumen de los tickers que se solicitaron previamente con sus rangos de fechas correspondientes (opción 1), o el gráfico de Precios de Cierre, Bajo y Alto por fechas guardados en la base de datos SQL, de un ticker que posteriormente deberá ingresar el usuario (opción 2). Si se presiona cualquier tecla diferente a "1" o "2", se vuelve al Menú Principal.
+
+![image](https://user-images.githubusercontent.com/88169218/189505416-b65da5bd-5a4f-4db0-b14f-2a9828d13861.png)
+
+
+
+
+
 
 
 
