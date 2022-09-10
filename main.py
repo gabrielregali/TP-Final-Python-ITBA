@@ -1,6 +1,8 @@
 from depurar_resumen import depurar_Resumen
 from crear_tabla_db import crear_tabla_db
 from existe_ticker import existe_ticker
+from imprimir_Menu_Ppal import imprimir_Menu_Ppal
+from imprimir_Menu_Visualiz import imprimir_Menu_Visualiz
 
 import requests
 from datetime import datetime, timedelta
@@ -49,9 +51,6 @@ def guardar_datos_db():
 
         if l==0:
             ayuda=Tiker_obtenido.Fechas[l]
-#            data=(Tiker_obtenido.Nombre_Ticker, Tiker_obtenido.Fechas[l])
-#            cursor.execute("INSERT INTO resumen (Ticker, Fecha_Inicio) VALUES(?, ?)", data)
-#            con.commit()
 
         elif l==(len(Tiker_obtenido.Fechas)-1):
             data=(Tiker_obtenido.Nombre_Ticker, ayuda, Tiker_obtenido.Fechas[l])
@@ -62,25 +61,6 @@ def guardar_datos_db():
         cursor.execute("INSERT INTO tickers (Ticker, Fecha, Apertura, Cierre, Bajo, Alto, Volumen) VALUES(?, ?, ?, ?, ?, ?, ?)", data)
         con.commit()
     return
-
-def imprimir_Menu_Ppal():
-    print("\n")
-    print("----------------------------------MENU PRINCIPAL------------------------------------------------")
-    print("1.Actualización de datos")
-    print("2.Visualización de datos")
-    opcion1=input("Ingrese una Opción (1 o 2). Presiona cualquier otra tecla para salir: ")
-    print("\n")
-    return opcion1
-
-
-def imprimir_Menu_Visualiz():
-    print("\n")
-    print("---------------------------------Visualización de Datos-----------------------------------------")
-    print("1.Resumen")
-    print("2.Gráfico de Ticker")
-    opcion2=input("Ingrese una Opción (1 o 2). Presiona cualquier otra tecla para volver al Menu Principal: ")
-    print("\n")
-    return opcion2 
 
 
 #________________________MAIN:PROGRAMA PRINCIPAL___________________________
@@ -95,7 +75,6 @@ while opcion =="1" or opcion =="2":
 
         existe=existe_ticker(nombre_ticker)
 
-        grabar=0 
         if existe:
             #Hago un select que me traiga los datos ya existentes en la base de datos de un determinado ticker
             #si el ticker no existe no trae nada, lo agrega despues a la base de datos     
