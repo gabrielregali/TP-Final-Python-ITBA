@@ -17,8 +17,11 @@ El corazón del programa es el script denominado "Main.py", el cual realiza el l
 
 Este script comienza con el llamado a la función "crear_tabla_db". Luego de esto realiza el llamado a la función "imprimir_Menu_Ppal".
 
-### Menú principal
+#### Función "crear_tabla_db"
+Esta función crea 3 tablas SQL: "tickers", "resumen" y "final", en el caso que no existan (se explicarán el uso de estas tablas más adelante en este informe). Esto quiere decir que cuando se ejecuta el programa por primera vez se crean las 3 tablas para un posterior uso, pero luego de ingresar por segunda vez las tablas ya existen, por lo cual el código detecta esto y no las vuelve a crear, evitando que el programa se detenga con un error.
 
+
+#### Menú principal (función "imprimir_Menu_Ppal")
 El Menú Principal se llama desde Main.py mediante la función "imprimir_Menu_Ppal". Este Menú permite seleccionar entre la Actualización de datos (opción 1), o la Visualización de datos (opción 2), los cuales son solicitados para ser ingresados por el usuario. Si se presiona cualquier tecla diferente a "1" o "2" finaliza el programa.
 
 ![image](https://user-images.githubusercontent.com/88169218/189491165-d9f43d7a-7bba-4be7-92e4-330b9f9f2fbe.png)
@@ -50,12 +53,31 @@ La función "existe_ticker(nombre_ticker)" utiliza la librería de Python "reque
 
 De regreso en el script Main, se pregunta mediante un if si la variable existe. Si se retorna de la función "existe_ticker(nombre_ticker)" con un True (existe el API) se ingresa dentro del cuerpo del if. Si se retorna con un False (no existe el API), no se ingresa dentro del cuerpo del if y se vuelve a llamar al Menú principal para que el usuario nuevamente elija una opción (función "imprimir_Menu_Ppal").
 
+A continuación se muestran capturas de pantalla de como actúa el programa, en el caso que se ingrese un ticker inexistente:
+
+![image](https://user-images.githubusercontent.com/88169218/189498994-ae24408d-a584-4581-8d43-1e9463c2f42c.png)
+
+
+Si el ticker existe, se ingresa dentro del cuerpo del if.
+
+![image](https://user-images.githubusercontent.com/88169218/189499147-621587a7-4645-4ecf-b92c-963a4eac8976.png)
+
+A continuación, lo primero que se hace es conectarse a la base de datos SQL creada, y filtrar los datos guardados, que se correspondan con el nonbre de ticker ingresado. 
+Esto se hace, para que posteriormente se pueda verificar mediante código, si dentro del rango de fechas de inicio y fin solicitados por el usuario, existe alguna fecha que ya fue solicitada por el usuario previamente y guardada en la base de datos. De esta manera, se evita solitar datos al API una fecha solicitada previamente.
+Ej: Si tengo guardados los datos de un ticker desde el 2022/01/01 al 2022/07/01 y se solicita desde el 2021/01/01 al 2022/07/01, el programa solicita datos al API únicamente desde el 2021/01/01 al 2021/12/31.
+
+Se solicita entonces que el usuario ingrese una fecha de inicio y una fecha de fin (ver más adelante en este informe "Manejo de excepciones y errores del programa").
+Las fechas ingresadas por el usuario en formato string, son convertidas a formato de fecha mediante la función "parse" de la librería "dateutil.parser". Se restan la fecha de fin menos la fecha de inicio para saber cuantos dias hay en el rango entre ambas fechas. Este número se convierte a entero y se utiliza en un bucle for, para guardar las fechas existentes dentro del rango solicitado, en una lista (lista_fechas).
+
+![image](https://user-images.githubusercontent.com/88169218/189500165-f5f108c8-59ab-4d0d-af5e-6f7be5a34930.png)
 
 
 
 
 
-### Manejo de errores de red y reconexiones
+
+
+### Manejo de excepciones y errores del programa
 
 
 El programa debe solicitar al usuario el valor de un ticker, una fecha de inicio y una fecha de fin. Debe luego pedir los valores a la API y guardar estos datos en una base de datos SQL.
