@@ -3,11 +3,12 @@ TP Final Certificación Profesional Python ITBA 2022
 
 ## Resumen
 
-Se implementea un programa en código Python, que lee datos de una API de finanzas (https://polygon.io/docs/stocks/getting-started), los guarda en una base de datos y los grafica, de acuerdo a lo solicitado en la consigna (ver Consigna Final Tp.md)
+Se implementea un programa en código Python, que lee datos de una API de finanzas (https://polygon.io/docs/stocks/getting-started), los guarda en una base de datos y los grafica, de acuerdo a lo solicitado en la consigna (ver Consigna TP Final.md)
 
+## Consideraciones iniciales
 
-
-## Informe de funcionalidad y diseño
+El código se programó y probó en primera instancia en notebooks de Google Colab (https://colab.research.google.com/). Luego se probó y modularizó en el IDE Spyder versión 4.2.5, perteneciente a la distribución libre Anaconda (https://www.anaconda.com/products/distribution).
+Las imágenes que se encuentran en este informe corresponden a capturas de pantalla de Google Colab y del IDE Spyder.
 
 ### Menú principal
 
