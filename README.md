@@ -18,6 +18,7 @@ Este script comienza con el llamado a la función "crear_tabla_db". Luego de est
 
 #### Función "crear_tabla_db"
 Esta función crea 3 tablas SQL: "tickers", "resumen" y "final", en el caso que no existan (se explicarán el uso de estas tablas más adelante en este informe). Esto quiere decir que cuando se ejecuta el programa por primera vez se crean las 3 tablas para un posterior uso, pero luego de ingresar por segunda vez las tablas ya existen, por lo cual el código detecta esto y no las vuelve a crear, evitando que el programa se detenga con un error.
+Utiliza la librería sqlite3.
 
 ![image](https://user-images.githubusercontent.com/88169218/189502333-d96a5245-eda7-4bb6-84a2-90b0dca68d28.png)
 
@@ -92,21 +93,63 @@ En el caso que se utilice una versión paga de este API, se podría eliminar la 
 
 ![image](https://user-images.githubusercontent.com/88169218/189502717-a22ed57f-0a1f-4a4d-9312-3865f0716da6.png)
 
-NOTA IMPORTANTE: Se utilizó el siguiente endpoint de Polygon.io: https://polygon.io/docs/stocks/get_v3_quotes__stockticker
+NOTA IMPORTANTE: Se utilizó el siguiente endpoint de Polygon.io: https://polygon.io/docs/stocks/get_v3_quotes__stockticker .
 Este API permite obtener datos de sólo una fecha al realizar un get.
-Se seleccionó el anterior endpoint, por sobre el endpoint https://polygon.io/docs/stocks/get_v2_aggs_ticker__stocksticker__range__multiplier___timespan___from___to
-El último devuelve datos de varias fechas selecionadas en un rango solicitado, pero tiene la desventaja que no indica las fechas a las cuales corresponden estos datos y no devuelve datos de días feriados, sábados y domingos, por lo cual se hace imposible identificar los datos para poder trabajar con ellos posteriormente.
+Se seleccionó el anterior endpoint, por sobre el endpoint https://polygon.io/docs/stocks/get_v2_aggs_ticker__stocksticker__range__multiplier___timespan___from___to . El último devuelve datos de varias fechas selecionadas en un rango solicitado, pero tiene la desventaja que no indica las fechas a las cuales corresponden estos datos y no devuelve datos de días feriados, sábados y domingos, por lo cual se hace imposible identificar los datos para poder trabajar con ellos posteriormente.
 
 Los datos que devuelve el API se convierten a formato json.
 Se pregunta mediante un if si no existen datos en esa fecha ('status'=='NOT_FOUND'), en cuyo caso los datos no se guardan en la clase Ticker (ver más abajo explicación de Clase Ticker)
 Si existen datos (else del if) se guardan los datos del json en la clase Ticker, mediante el método "agregar_datos" de la clase.
 
-![image](https://user-images.githubusercontent.com/88169218/189503093-af73b69b-047b-4be2-9b92-3fa1fdd7c2c6.png)
+![image](https://user-images.githubusercontent.com/88169218/189503093-af73b69b-047b-4be2-9b92-3fa1fdd7c2c6.png) 
 
 Una vez que se guardaron los datos obtenidos en la clase Ticker, se guardan estos datos en la base de datos SQL, tabla "tickers" mediante la función "guardar_datos_db".
 Por último se llama nuevamente al Menú Principal.
 
 ![image](https://user-images.githubusercontent.com/88169218/189503305-46163b48-25e8-44b7-942c-3f034775c7fd.png)
+
+#### Función guardar_datos_db
+Esta función se conecta con la base de datos SQL y guarda mediante un bucle for, los datos que previamente se guardaron en la Clase Ticker. 
+
+![image](https://user-images.githubusercontent.com/88169218/189504700-72828c31-1c60-4ed2-a63e-31fa497fab37.png)
+
+![image](https://user-images.githubusercontent.com/88169218/189504723-ca8f6566-a355-4396-943d-cc8d5e768fac.png)
+
+Se guardan en 2 tablas. 
+En la tabla "tickers" se guardan el Ticker, la Fecha, el precio de Apertura, el precio de Cierre, el precio más Bajo, el pecio más Alto, el Volumen operado. Estos datos se utilizarán posteriormente para graficar los datos en el Menú de Visualización.
+En la tabla "resumen" se guardan el ticker, la fecha de inicio, la fecha de fin, los cuales serán utilizados posteriomente para visualizar en el Menú Resumen.
+
+
+### Visualización de Datos (Opción 2)
+
+Si el usuario presiona "2", mediante un elif de la opción 1, se accede a la visualización de los datos que se encuentran guardados en la base de datos SQL.
+A continuación el código se conecta con la base de datos, y mediante bucles for se guardan los datos en dos diccionarios: 
+- en el diccionario datos se guardan los datos de la tabla "tickers".
+- en el diccionario datos2 se guardan los datos de la tabla "resumen"
+
+![image](https://user-images.githubusercontent.com/88169218/189505213-d63f66b7-1b48-42ba-aff2-74664d6505f1.png)
+
+![image](https://user-images.githubusercontent.com/88169218/189505202-c74f23ad-b244-4b0a-a84e-378f7530934f.png)
+
+![image](https://user-images.githubusercontent.com/88169218/189505222-1730e56f-06e2-4e7e-b012-6bf95d7a5112.png)
+
+Finalmente los datos guardados en estos 2 diccionarios se utilizan para armar 2 Dataframe:
+- El dataframe "Total_Tickers" se utiliza para graficar posteriormente los datos de los tickers
+- El dataframe "Resumen_Tickers" se utiliza para mostrar posteriormente un resumen de los datos solicitados por ticker, por rango de fechas.
+
+![image](https://user-images.githubusercontent.com/88169218/189505243-85303d3b-ceee-4159-af1e-e5ef87cd1416.png)
+
+Finalmente se llama al Menú de Visualización mediante la función imprimir_Menu_Visualiz.
+
+
+
+
+
+
+
+
+
+
 
 
 
