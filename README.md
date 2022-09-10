@@ -14,12 +14,12 @@ Las imágenes que se encuentran en este informe corresponden a capturas de panta
 ## Descripción del código en Python del programa
 
 El corazón del programa es el script denominado "Main.py", el cual realiza el llamado a funciones, que serán descriptas más adelante en este informe.
-
 Este script comienza con el llamado a la función "crear_tabla_db". Luego de esto realiza el llamado a la función "imprimir_Menu_Ppal".
 
 #### Función "crear_tabla_db"
 Esta función crea 3 tablas SQL: "tickers", "resumen" y "final", en el caso que no existan (se explicarán el uso de estas tablas más adelante en este informe). Esto quiere decir que cuando se ejecuta el programa por primera vez se crean las 3 tablas para un posterior uso, pero luego de ingresar por segunda vez las tablas ya existen, por lo cual el código detecta esto y no las vuelve a crear, evitando que el programa se detenga con un error.
 
+![image](https://user-images.githubusercontent.com/88169218/189502333-d96a5245-eda7-4bb6-84a2-90b0dca68d28.png)
 
 #### Menú principal (función "imprimir_Menu_Ppal")
 El Menú Principal se llama desde Main.py mediante la función "imprimir_Menu_Ppal". Este Menú permite seleccionar entre la Actualización de datos (opción 1), o la Visualización de datos (opción 2), los cuales son solicitados para ser ingresados por el usuario. Si se presiona cualquier tecla diferente a "1" o "2" finaliza el programa.
@@ -35,7 +35,7 @@ Esta selección se implementa en el código mediante un bucle "while", el cual s
 ![image](https://user-images.githubusercontent.com/88169218/189493035-292cb84a-7995-4e59-989f-504e2fea4026.png)
 
 
-### Actualización de Datos 
+### Actualización de Datos (Opción 1)
 
 Cuando el usuario presiona "1", se accede al interior del while, y luego mediante un if se accede a la actualización de datos para posteriormente guardarlo en una tabla de una base de datos SQL.
 
@@ -75,6 +75,50 @@ Se restan la fecha de fin menos la fecha de inicio para saber cuantos dias hay e
 Este número se convierte a entero y se utiliza en un bucle for, para guardar las fechas existentes dentro del rango solicitado, en una lista (lista_fechas). Se utiliza la funcion datetime (para tomar solo la fecha del formato) a las cuales se le suma un día mediante la funcion timedelta (ambas importadas desde la librería "datetime").
 
 ![image](https://user-images.githubusercontent.com/88169218/189500165-f5f108c8-59ab-4d0d-af5e-6f7be5a34930.png)
+
+Se guardan en una lista (fechas_db) las fechas existentes en la base de datos del ticker solicitado (previamente filtradas al conectarse a la base de datos SQL).
+
+![image](https://user-images.githubusercontent.com/88169218/189502421-8c31f34b-e8b1-475b-98e3-02b0b597a25c.png)
+
+Entonces se comprueba mediante un bucle for si las fechas que se encuentran entre el rango solicitado por el usuario (lista_fechas), ya existen dentro de la base de datos (fechas_db). 
+En el caso de que no existan dentro de la base de datos del ticker pedido, se guardan en una nueva lista (lista_fechas_fin), la cual se utilizará para solicitar datos al API de Polygon.io (de esta manera se evita solitar datos de una fecha a la cual ya se le solicitaron datos con anterioridad).
+
+![image](https://user-images.githubusercontent.com/88169218/189502589-a7137dd6-2338-4121-89dc-7e133899b89b.png)
+
+Entonces, se solicitan datos del ticker al API de Polygon.io, realizando un get por fecha guardada en la lista de fechas no repetidas en la base de datos (lista_fechas_fin).
+Debido a que la versión gratuita de este API tiene una limitación de 5 llamadas por minuto, se realiza una llamada a la función "sleep" por 12 segundos, para evitar superar el número de llamadas por minuto.
+Esta versión gratuita tiene la limitación de que no devuelve datos de fechas anteriores a 2 años a la fecha.
+En el caso que se utilice una versión paga de este API, se podría eliminar la espera de 12 segundos por llamada al API, haciendo que el programa sea más veloz.
+
+![image](https://user-images.githubusercontent.com/88169218/189502717-a22ed57f-0a1f-4a4d-9312-3865f0716da6.png)
+
+NOTA IMPORTANTE: Se utilizó el siguiente endpoint de Polygon.io: https://polygon.io/docs/stocks/get_v3_quotes__stockticker
+Este API permite obtener datos de sólo una fecha al realizar un get.
+Se seleccionó el anterior endpoint, por sobre el endpoint https://polygon.io/docs/stocks/get_v2_aggs_ticker__stocksticker__range__multiplier___timespan___from___to
+El último devuelve datos de varias fechas selecionadas en un rango solicitado, pero tiene la desventaja que no indica las fechas a las cuales corresponden estos datos y no devuelve datos de días feriados, sábados y domingos, por lo cual se hace imposible identificar los datos para poder trabajar con ellos posteriormente.
+
+Los datos que devuelve el API se convierten a formato json.
+Se pregunta mediante un if si no existen datos en esa fecha ('status'=='NOT_FOUND'), en cuyo caso los datos no se guardan en la clase Ticker (ver más abajo explicación de Clase Ticker)
+Si existen datos (else del if) se guardan los datos del json en la clase Ticker, mediante el método "agregar_datos" de la clase.
+
+![image](https://user-images.githubusercontent.com/88169218/189503093-af73b69b-047b-4be2-9b92-3fa1fdd7c2c6.png)
+
+Una vez que se guardaron los datos obtenidos en la clase Ticker, se guardan estos datos en la base de datos SQL, tabla "tickers" mediante la función "guardar_datos_db".
+Por último se llama nuevamente al Menú Principal.
+
+![image](https://user-images.githubusercontent.com/88169218/189503305-46163b48-25e8-44b7-942c-3f034775c7fd.png)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
