@@ -63,11 +63,12 @@ Si el ticker existe, se ingresa dentro del cuerpo del if.
 ![image](https://user-images.githubusercontent.com/88169218/189499147-621587a7-4645-4ecf-b92c-963a4eac8976.png)
 
 A continuación, lo primero que se hace es conectarse a la base de datos SQL creada, y filtrar los datos guardados, que se correspondan con el nonbre de ticker ingresado. 
-Esto se hace, para que posteriormente se pueda verificar mediante código, si dentro del rango de fechas de inicio y fin solicitados por el usuario, existe alguna fecha que ya fue solicitada por el usuario previamente y guardada en la base de datos. De esta manera, se evita solitar datos al API una fecha solicitada previamente.
+Esto se hace, para que posteriormente se pueda verificar mediante código, si dentro del rango de fechas de inicio y fin solicitados por el usuario, existe alguna fecha que ya fue solicitada por el usuario previamente y guardada en la base de datos. De esta manera, se evita solicitar datos al API una fecha solicitada previamente.
 Ej: Si tengo guardados los datos de un ticker desde el 2022/01/01 al 2022/07/01 y se solicita desde el 2021/01/01 al 2022/07/01, el programa solicita datos al API únicamente desde el 2021/01/01 al 2021/12/31.
 
 Se solicita entonces que el usuario ingrese una fecha de inicio y una fecha de fin (ver más adelante en este informe "Manejo de excepciones y errores del programa").
-Las fechas ingresadas por el usuario en formato string, son convertidas a formato de fecha mediante la función "parse" de la librería "dateutil.parser". Se restan la fecha de fin menos la fecha de inicio para saber cuantos dias hay en el rango entre ambas fechas. Este número se convierte a entero y se utiliza en un bucle for, para guardar las fechas existentes dentro del rango solicitado, en una lista (lista_fechas).
+Las fechas ingresadas por el usuario en formato string, son convertidas a formato de fecha mediante la función "parse" de la librería "dateutil.parser". 
+Se restan la fecha de fin menos la fecha de inicio para saber cuantos dias hay en el rango entre ambas fechas. Este número se convierte a entero y se utiliza en un bucle for, para guardar las fechas existentes dentro del rango solicitado, en una lista (lista_fechas). Se utiliza la funcion datetime (para tomar solo la fecha del formato) a las cuales se le suma un día mediante la funcion timedelta (ambas importadas desde la librería "datetime").
 
 ![image](https://user-images.githubusercontent.com/88169218/189500165-f5f108c8-59ab-4d0d-af5e-6f7be5a34930.png)
 
