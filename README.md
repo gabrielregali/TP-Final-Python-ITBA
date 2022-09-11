@@ -236,6 +236,19 @@ Se solicita en primer lugar que el usuario ingrese un ticker. A continuación ex
 
 En un mismo gráfico se muestran los datos guardados del ticker en la base de datos: nombre del ticker, precio más bajo, precio más alto y precio de cierre por fecha. El precio de cierre se grafica en una linea más gruesa. 
 
+Cuando se ejecuta el código descripto anteriormente, se observa lo siguiente:
+- Si se ingresa un ticker que no existe en la base de datos:
+
+![image](https://user-images.githubusercontent.com/88169218/189549660-e9596c2a-075c-4b85-b7a3-ec1ac5df6686.png)
+
+- Cuando se ingresa un ticker existente en la base de datos:
+
+![image](https://user-images.githubusercontent.com/88169218/189549697-bc03f841-7d2b-43fb-824e-46d65f0eb8a3.png)
+
+![image](https://user-images.githubusercontent.com/88169218/189549725-c3cff04d-a8e9-446d-954b-5b00d0a7df1e.png)
+
+
+
 
 
 
