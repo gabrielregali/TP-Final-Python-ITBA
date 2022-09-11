@@ -152,9 +152,73 @@ Los datos guardados en estos 2 diccionarios se utilizan para armar 2 Dataframe:
 ![image](https://user-images.githubusercontent.com/88169218/189505243-85303d3b-ceee-4159-af1e-e5ef87cd1416.png)
 
 Finalmente se llama al Menú de Visualización mediante la función "imprimir_Menu_Visualiz".
+
 Este Menú permite seleccionar entre visualizar un Resumen de los tickers que se solicitaron previamente con sus rangos de fechas correspondientes (opción 1), o el gráfico de Precios de Cierre, Bajo y Alto por fechas guardados en la base de datos SQL, de un ticker que posteriormente deberá ingresar el usuario (opción 2). Si se presiona cualquier tecla diferente a "1" o "2", se vuelve al Menú Principal.
 
 ![image](https://user-images.githubusercontent.com/88169218/189505416-b65da5bd-5a4f-4db0-b14f-2a9828d13861.png)
+
+Si se presiona "1" o "2" se ingresa dentro de un bucle while del que se sale presionando cualquier tecla diferente a estas 2 opciones.
+Dentro del bucle while, si se presiona "1" se ingresa dentro del cuerpo de un if, el cual es el código encargado de mostrar el Resumen de los tickers guardados en la base de datos hasta el momento, el cual se puede ver en el dataframe "Resumen_Tickers".
+Pero, en este dataframe se guardan todas la fechas solcitadas al API, por lo cual si se solicito una fecha incluida dentro de otro rango de fechas, se muestran ambas solicitudes, como se puede observar en la siguiente imagen:
+
+![image](https://user-images.githubusercontent.com/88169218/189532662-f1a7f847-85ed-460a-9fcc-f270bac426ce.png)
+
+en la que se puede ver que el intervalo desde el 6 al 7 de julio se encuentra dentro del intervalo del 5 al 8 de julio. 
+Debido a esto se creó la funcion "depurar_Resumen" la cual verifica rangos de fechas incluidos dentro de otros rangos de fechas y los unifica, es decir hace que se muestre un rango de fechas del 5 al 8 de julio (ya que desde el 6 al 7 se encuentra incluido en el rango anterior).
+
+NOTA IMPORTANTE: Unificar 2 rangos de fechas, prevaleciendo el rango más amplio, seguramente se puede realizar sencillamente mediante código SQL, en algo que encontré en la web que se denomina islas y huecos (o islands and gaps): https://www.mssqltips.com/sqlservertutorial/9130/sql-server-window-functions-gaps-and-islands-problem/ .
+Probé código SQL para agrupar los rangos de fechas, pero no obtuve buenos resultados, por lo cual realicé esta agrupación mediante Python. 
+El código se encuentra dentro de la función "depurar_Resumen", la cual realiza esta agrupación exitosamente, pero probablemente se pueda optimizar en menos líneas de código.
+
+#### Función depurar_Resumen
+Esta funcion se conecta con la tabla "tickers" de la base de datos, y mediante bucles for guarda en una lista los nombres de tickers no repetidos (resum_unic_tickers):
+
+![image](https://user-images.githubusercontent.com/88169218/189533536-23582cb6-1d73-4933-907c-ed26330ecd9d.png)
+
+Luego, se conecta nuevamente a la tabla "resumen" de la base de datos, filtra los datos por nombre de ticker, y mediante 2 bucles for guarda en 2 listas de listas las fechas de inicio y fin para cada ticker:
+
+![image](https://user-images.githubusercontent.com/88169218/189535124-c076e913-e5f3-4106-a64d-0bff27b7104a.png)
+
+Entonces, se conecta nuevamente con la tabla "resumen" de la base de datos, y se guardan todas las fechas existentes y nombres de tickers en 3 listas mediante un bucle for:
+
+![image](https://user-images.githubusercontent.com/88169218/189535265-c3c32f44-974a-4431-999e-6b9cf35746fb.png)
+
+Finalmente, se comparan mediante 2 bucles for anidados, las fechas totales de inicio y fin guardadas en 2 listas de la totalidad de la tabla resumen, contra las fechas de inicio y fin guardadas por ticker en las 2 listas de listas.
+
+Si se encuentra que un par de fecha de inicio-fecha de fin se encuentra incluida dentro de otro par de fecha de inicio-fecha de fin (correspondientes a un mismo ticker), significa que se trata de fechas incluidas en otro rango de fechas, entonces se guardan estas fechas en una tabla llamada "final" de la base de datos: 
+
+![image](https://user-images.githubusercontent.com/88169218/189535328-7d1a3391-d266-4acc-9634-1caf7953ae92.png)
+
+El código se conecta entonces con las tablas "resumen" y "final" de la base de datos, y guarda en 3 listas todos los datos incluidos en estas 2 tablas. Estas listas se utilizan para guardar los datos en un diccionario, el cual se utiliza para crear el dataframe "Tickers_Total_total":
+
+![image](https://user-images.githubusercontent.com/88169218/189536015-0a996c0f-1cc6-44c0-af16-ee38ed62641d.png)
+
+![image](https://user-images.githubusercontent.com/88169218/189536038-b3976de5-2d34-493d-9be4-e2e2a3e69fb1.png)
+
+Finalmente, en el dataframe "Tickers_Total_total" se eliminan los datos duplicados, es decir los que separaron en la tabla "final" de la base de datos por encontrar incluidos en otro rango de fechas.
+De esta manera, el dataframe "Tickers_Total_total" posee solo los rangos de fecha mas abarcativos por ticker, ordenados de maera ascendente por nombre de ticker y fecha:
+
+![image](https://user-images.githubusercontent.com/88169218/189536048-0e9ea276-d7e8-4c7a-9eb6-0a114ab8adc0.png)
+
+Utilizando ahora la función "depurar_Resumen"  se pude observar en las siguientes imágenes como se soluciona lo comentado anteriormente:
+
+SIN  "depurar_Resumen"
+
+![image](https://user-images.githubusercontent.com/88169218/189532662-f1a7f847-85ed-460a-9fcc-f270bac426ce.png)
+
+CON  "depurar_Resumen"
+
+
+
+
+
+ 
+
+
+
+
+
+
 
 
 
