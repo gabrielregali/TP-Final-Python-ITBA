@@ -214,6 +214,30 @@ CON  "depurar_Resumen"
 
 
 ### Submenú Gráfico de Ticker (Opción 2)
+Dentro del bucle while, si se presiona "2" se ingresa dentro del cuerpo del elif, el cual es el código encargado de graficar los datos del ticker que desee el usuario.
+
+Se utiliza para graficar el dataframe "Total_Tickers", el cual posee los datos actualizados de la tabla "tickers" de la base de datos SQL.
+Se solicita en primer lugar que el usuario ingrese un ticker. A continuación existen 3 posibilidades:
+- Que al solicitar el ticker la tabla esté vacía ya que todavía no se han guardado datos
+- Que el ticker no esté guardado aún en la base de datos por lo cual no se puede graficar
+- Que se solicite un ticker que posee datos guardados y se pueda graficar.
+
+- Si al solicitar el ticker la tabla está vacía (ya que todavía no se han guardado datos), se imprime un mensaje indicando esto.
+
+![image](https://user-images.githubusercontent.com/88169218/189547018-44fd9965-75f6-4d11-b3c8-e851e649c7ea.png)
+
+- Si el ticker no está guardado aún en la base de datos no se puede graficar, por lo cual se sale por el else del if indicando esto. Se llama nuevamente al Menú de Visualización para que el usuario escoja una opción.
+
+![image](https://user-images.githubusercontent.com/88169218/189547077-62a43735-481f-484a-ae50-b3f3ffb5ab9b.png)
+
+- Si se solicita un ticker que posee datos guardados y se pueda graficar, se filtra el dataframe por el nombre del ticker que desee el usuario, mostrando solo los datos correspondientes a este ticker.
+
+![image](https://user-images.githubusercontent.com/88169218/189547172-cbf2db5d-382b-4f34-817b-02f6b816ca1f.png)
+
+En un mismo gráfico se muestran los datos guardados del ticker en la base de datos: nombre del ticker, precio más bajo, precio más alto y precio de cierre por fecha. El precio de cierre se grafica en una linea más gruesa. 
+
+
+
 
 
 
