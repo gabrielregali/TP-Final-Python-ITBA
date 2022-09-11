@@ -158,8 +158,10 @@ Este Menú permite seleccionar entre visualizar un Resumen de los tickers que se
 ![image](https://user-images.githubusercontent.com/88169218/189505416-b65da5bd-5a4f-4db0-b14f-2a9828d13861.png)
 
 Si se presiona "1" o "2" se ingresa dentro de un bucle while del que se sale presionando cualquier tecla diferente a estas 2 opciones.
+
+### Submenú Resumen (Opción 1)
 Dentro del bucle while, si se presiona "1" se ingresa dentro del cuerpo de un if, el cual es el código encargado de mostrar el Resumen de los tickers guardados en la base de datos hasta el momento, el cual se puede ver en el dataframe "Resumen_Tickers".
-Pero, en este dataframe se guardan todas la fechas solcitadas al API, por lo cual si se solicito una fecha incluida dentro de otro rango de fechas, se muestran ambas solicitudes, como se puede observar en la siguiente imagen:
+Pero, en este dataframe se guardan todas la fechas solicitadas al API, por lo cual si se solicito una fecha incluida dentro de otro rango de fechas, se muestran ambas solicitudes, como se puede observar en la siguiente imagen:
 
 ![image](https://user-images.githubusercontent.com/88169218/189532662-f1a7f847-85ed-460a-9fcc-f270bac426ce.png)
 
@@ -195,8 +197,8 @@ El código se conecta entonces con las tablas "resumen" y "final" de la base de 
 
 ![image](https://user-images.githubusercontent.com/88169218/189536038-b3976de5-2d34-493d-9be4-e2e2a3e69fb1.png)
 
-Finalmente, en el dataframe "Tickers_Total_total" se eliminan los datos duplicados, es decir los que separaron en la tabla "final" de la base de datos por encontrar incluidos en otro rango de fechas.
-De esta manera, el dataframe "Tickers_Total_total" posee solo los rangos de fecha mas abarcativos por ticker, ordenados de maera ascendente por nombre de ticker y fecha:
+Finalmente, en el dataframe "Tickers_Total_total" se eliminan los datos duplicados, es decir los que separaron en la tabla "final" de la base de datos por encontrarse incluidos en otro rango de fechas.
+De esta manera, el dataframe "Tickers_Total_total" posee solo los rangos de fecha mas abarcativos por ticker, ordenados de manera ascendente por nombre de ticker y fecha:
 
 ![image](https://user-images.githubusercontent.com/88169218/189536048-0e9ea276-d7e8-4c7a-9eb6-0a114ab8adc0.png)
 
@@ -208,51 +210,10 @@ SIN  "depurar_Resumen"
 
 CON  "depurar_Resumen"
 
+![image](https://user-images.githubusercontent.com/88169218/189536605-1e58d476-9d85-462a-9fe3-3a249584457c.png)
 
 
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### Submenú Gráfico de Ticker (Opción 2)
 
 
 
@@ -260,50 +221,7 @@ CON  "depurar_Resumen"
 ### Manejo de excepciones y errores del programa
 
 
-El programa debe solicitar al usuario el valor de un ticker, una fecha de inicio y una fecha de fin. Debe luego pedir los valores a la API y guardar estos datos en una base de datos SQL.
 
-Ejemplo:
-```
->>> Ingrese ticker a pedir:
-AAPL
->>> Ingrese fecha de inicio:
-2022/01/01
->>> Ingrese fecha de fin:
-2022/07/01
->>> Pidiendo datos ...
->>> Datos guardados correctamente
-```
-
-### Visualización de datos
-
-El programa debe permitir dos visualizaciones de datos:
-
- 1. Resumen
- 2. Gráfico de ticker
-
-### Resumen
-
-Debe imprimir un resumen de los datos guardados en la base de datos.
-
-Ejemplos:
-```
->>> Los tickers guardados en la base de datos son:
->>> AAPL - 2022/01/01 <-> 2022/07/01
->>> AAL  - 2021/01/01 <-> 2022/07/01
-```
-
-### Gráfico
-
-El programa debe permitir graficar los datos guardados para un ticker específico.
-
-Ejemplo:
-```
->>> Ingrese el ticker a graficar:
-AAL
-```
-
-## Condición de aprobación
-El programa debe cumplir con toda la funcionalidad dentro de detalles de implementación. Para obtener una nota superior a 7 deben implementarse alguna funcionalidad extra, sea las propuestas o propuestas por el grupo.
 
 ## Extras
 
