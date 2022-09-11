@@ -119,6 +119,18 @@ Se guardan en 2 tablas.
 En la tabla "tickers" se guardan el Ticker, la Fecha, el precio de Apertura, el precio de Cierre, el precio más Bajo, el pecio más Alto, el Volumen operado. Estos datos se utilizarán posteriormente para graficar los datos en el Menú de Visualización.
 En la tabla "resumen" se guardan el ticker, la fecha de inicio, la fecha de fin, los cuales serán utilizados posteriomente para visualizar en el Menú Resumen.
 
+Cuando se ejecuta el código descripto anteriormente, se observa lo siguiente:
+
+![image](https://user-images.githubusercontent.com/88169218/189531589-5649fdbc-8e6d-434f-b097-9a6aceca8778.png)
+
+![image](https://user-images.githubusercontent.com/88169218/189531644-9c0ac010-e995-4e14-806c-0213435202c2.png)
+
+Si vuelvo a solicitar datos, pero en un rango de fechas para la cual ya solicité datos previamente, el código sólo solicitará datos al API de las fechas nunca pedidas antes:
+
+![image](https://user-images.githubusercontent.com/88169218/189531864-b29f7316-1fba-4639-b31d-0b6e79eb65c7.png)
+
+como se puede observar, no se solicitaron datos para el 6 y 7 de julio, ya que se habían sido solicitados previamente.
+
 
 ### Visualización de Datos (Opción 2)
 
@@ -143,6 +155,10 @@ Finalmente se llama al Menú de Visualización mediante la función "imprimir_Me
 Este Menú permite seleccionar entre visualizar un Resumen de los tickers que se solicitaron previamente con sus rangos de fechas correspondientes (opción 1), o el gráfico de Precios de Cierre, Bajo y Alto por fechas guardados en la base de datos SQL, de un ticker que posteriormente deberá ingresar el usuario (opción 2). Si se presiona cualquier tecla diferente a "1" o "2", se vuelve al Menú Principal.
 
 ![image](https://user-images.githubusercontent.com/88169218/189505416-b65da5bd-5a4f-4db0-b14f-2a9828d13861.png)
+
+
+
+
 
 
 
