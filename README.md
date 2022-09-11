@@ -14,7 +14,18 @@ Las imágenes que se encuentran en este informe corresponden a capturas de panta
 ## Descripción del código en Python del programa
 
 El corazón del programa es el script denominado "Main.py", el cual realiza el llamado a funciones, que serán descriptas más adelante en este informe.
-Este script comienza con el llamado a la función "crear_tabla_db". Luego de esto realiza el llamado a la función "imprimir_Menu_Ppal".
+
+Este script comienza con la declaración de la Clase Ticker, la declaración de la función "guardar_datos_db", para luego comenzar con el llamado a la función "crear_tabla_db". Luego de esto realiza el llamado a la función "imprimir_Menu_Ppal".
+
+#### Clase "Ticker"
+- El Inicializador recibe como parámetros el nombre del ticker, una lista con todos los precios de aperturas, una lista con todos los precios de cierre, una lista con todas las fechas, una lista con todos los precios bajos, una lista con todos los precios altos, una lista con todos lo volumenes, y guarda estos datos en sus respectivas variables y listas.
+
+![image](https://user-images.githubusercontent.com/88169218/189552511-42a7756d-518c-4d9a-aaba-97ab0f0cde87.png)
+
+- Estos datos se envían como parámetros cuando se llama al método de la clase "agregar_datos", cuando se obtienen datos del API que deben ser guardados, como se puede ver en la siguiente parte del código (se describirá con más detalle en adelante):
+
+![image](https://user-images.githubusercontent.com/88169218/189552421-b2046162-eb65-4eb1-97ad-d73bc1302416.png)
+
 
 #### Función "crear_tabla_db"
 Esta función crea 3 tablas SQL: "tickers", "resumen" y "final", en el caso que no existan (se explicarán el uso de estas tablas más adelante en este informe). Esto quiere decir que cuando se ejecuta el programa por primera vez se crean las 3 tablas para un posterior uso, pero luego de ingresar por segunda vez las tablas ya existen, por lo cual el código detecta esto y no las vuelve a crear, evitando que el programa se detenga con un error.
@@ -65,7 +76,7 @@ Si el ticker existe, se ingresa dentro del cuerpo del if.
 
 A continuación, lo primero que se hace es conectarse a la base de datos SQL creada, y filtrar los datos guardados, que se correspondan con el nombre de ticker ingresado. 
 Esto se hace, para que posteriormente se pueda verificar mediante código, si dentro del rango de fechas de inicio y fin solicitados por el usuario, existe alguna fecha que ya fue solicitada por el usuario previamente y guardada en la base de datos. De esta manera, se evita solicitar datos al API una fecha solicitada previamente.
-Ej: Si tengo guardados los datos de un ticker desde el 2022/01/01 al 2022/07/01 y se solicita desde el 2021/01/01 al 2022/07/01, el programa solicita datos al API únicamente desde el 2021/01/01 al 2021/12/31.
+Ej: Si tengo guardados los datos de un ticker desde el 2022/01/01 al 2022/07/01 y se solicita desde el 2021/01/01 al 2022/07/01, el programa solicita datos al API únicamente desde el 2021/01/01 al 2021/12/31 (Extra del programa).
 
 Se solicita entonces que el usuario ingrese una fecha de inicio y una fecha de fin (ver más adelante en este informe "Manejo de excepciones y errores del programa").
 Las fechas ingresadas por el usuario en formato string, son convertidas a formato de fecha mediante la función "parse" de la librería "dateutil.parser". 
@@ -103,7 +114,7 @@ Si existen datos (else del if) se guardan los datos del json en la clase Ticker,
 
 ![image](https://user-images.githubusercontent.com/88169218/189503093-af73b69b-047b-4be2-9b92-3fa1fdd7c2c6.png) 
 
-Una vez que se guardaron los datos obtenidos en la clase Ticker, se guardan estos datos en la base de datos SQL, tabla "tickers" mediante la función "guardar_datos_db".
+Una vez que se guardaron los datos obtenidos en la clase Ticker, se guardan estos datos en la base de datos SQL en la tabla "tickers", mediante la función "guardar_datos_db".
 Por último se llama nuevamente al Menú Principal.
 
 ![image](https://user-images.githubusercontent.com/88169218/189503305-46163b48-25e8-44b7-942c-3f034775c7fd.png)
@@ -116,7 +127,7 @@ Esta función se conecta con la base de datos SQL y guarda mediante un bucle for
 ![image](https://user-images.githubusercontent.com/88169218/189504723-ca8f6566-a355-4396-943d-cc8d5e768fac.png)
 
 Se guardan en 2 tablas. 
-En la tabla "tickers" se guardan el Ticker, la Fecha, el precio de Apertura, el precio de Cierre, el precio más Bajo, el pecio más Alto, el Volumen operado. Estos datos se utilizarán posteriormente para graficar los datos en el Menú de Visualización.
+En la tabla "tickers" se guardan el Ticker, la Fecha, el precio de Apertura, el precio de Cierre, el precio más Bajo, el precio más Alto, el Volumen operado. Estos datos se utilizarán posteriormente para graficar los datos en el Menú de Visualización.
 En la tabla "resumen" se guardan el ticker, la fecha de inicio, la fecha de fin, los cuales serán utilizados posteriomente para visualizar en el Menú Resumen.
 
 Cuando se ejecuta el código descripto anteriormente, se observa lo siguiente:
@@ -129,7 +140,7 @@ Si vuelvo a solicitar datos, pero en un rango de fechas para la cual ya solicit�
 
 ![image](https://user-images.githubusercontent.com/88169218/189531864-b29f7316-1fba-4639-b31d-0b6e79eb65c7.png)
 
-como se puede observar, no se solicitaron datos para el 6 y 7 de julio, ya que se habían sido solicitados previamente.
+como se puede observar, no se solicitaron datos al API para el 6 y 7 de julio, ya que habían sido solicitados previamente.
 
 
 ### Visualización de Datos (Opción 2)
@@ -149,7 +160,7 @@ Los datos guardados en estos 2 diccionarios se utilizan para armar 2 Dataframe:
 - El dataframe "Total_Tickers" se utiliza para graficar posteriormente los datos de los tickers
 - El dataframe "Resumen_Tickers" se utiliza para mostrar posteriormente un resumen de los datos solicitados por ticker, por rango de fechas.
 
-![image](https://user-images.githubusercontent.com/88169218/189505243-85303d3b-ceee-4159-af1e-e5ef87cd1416.png)
+![image](https://user-images.githubusercontent.com/88169218/189550532-9970076b-e034-4232-8707-02fee71cf484.png)
 
 Finalmente se llama al Menú de Visualización mediante la función "imprimir_Menu_Visualiz".
 
@@ -255,21 +266,41 @@ Cuando se ejecuta el código descripto anteriormente, se observa lo siguiente:
 
 
 
-### Manejo de excepciones y errores del programa
+### Manejo de excepciones y errores del programa (Extra)
+- En la función "crear_tabla_db" el código detecta si la base de datos ya tiene creadas las tablas, evitando arrojar un error y detener la ejecución del programa (explicado anteriormente).
+- En la función "existe_ticker" se comprueba si existe el ticker en la API de Polygon.io, evitando que el programa se interrumpa por error cuando el usuario solicite un ticker inexistente (explicado anteriormente).
+- Cuando el usuario ingresa caracteres alfanuméricos como fechas de inicio o de fin, diferentes del formato de fecha que requiere la API (YYYY-MM-DD), mediante un códido se detecta esto, se indica al usuario mediante un mensaje que una de las fechas tiene un formato incorrecto y se le vuelve a solicitar que ingrese las fechas.
+- Este código se obtuvo de la documentación que ofrece la página web de Python (8.3. Handling Exceptions): https://docs.python.org/3/tutorial/errors.html
+
+![image](https://user-images.githubusercontent.com/88169218/189551187-5f377248-61eb-40e6-a311-4513e739d881.png)
+
+- Cuando el usuario ingresa una fecha, con un formato erróneo menor a 10 caracteres correspondientes a AAAA-MM-DD, se detecta esto mediante código, se indica al usuario mediante un mensaje que una de las fechas tiene un formato incorrecto y se le vuelve a solicitar que ingrese las fechas
+
+![image](https://user-images.githubusercontent.com/88169218/189551297-217cb5d0-2a6b-4cf0-89c7-f97a3ec4dc8e.png)
+
+- Si el usuario ingresa una fecha de inicio mayor que la fecha de fin, el código detecta esto, evitando errores en la solicitud de datos al API o cuando se guardan datos en la base de datos.
+Se le indica este error al usuario y se le solicita que ingrese las fechas nuevamente.
+
+![image](https://user-images.githubusercontent.com/88169218/189551357-726df78f-3d6c-44f7-9c4f-8c37f849d1ea.png)
+
+Cuando se ejecuta el código descripto anteriormente, correspondiente a errores del usuario al ingresar las fechhas se observa lo siguiente:
+
+Cuando el usuario ingresa caracteres alfanuméricos en vez de fechas:
+
+![image](https://user-images.githubusercontent.com/88169218/189551459-18c88bf7-bc13-4392-8095-6339d7f49cfe.png)
+
+Cuando el usuario ingresa fechas con menos de 10 caracteres (formato AAAA-MM-DD):
+
+![image](https://user-images.githubusercontent.com/88169218/189551492-4a81fc68-7a89-47e2-a9d6-afa921c01fa2.png)
+
+Cuando el usuario ingresa una fecha de incio mayor a la fecha de fin:
+
+![image](https://user-images.githubusercontent.com/88169218/189551541-0c060aa5-7abd-4422-b8c0-b33352e831f3.png)
 
 
 
 
-## Extras
+## Desarrolladores del Proyecto
+El código de este programa, y el informe de funcionalidad y diseño, fue realizado en su totalidad por Gabriel Alfredo Regali (https://github.com/gabrielregali) .
 
-Posibles extras para el programa:
 
- - Visualización en tiempo real del valor de una acción.
- - Actualización de rangos en base de datos considerando lo guardado. Ej: Si tengo del 2022/01/01 al 2022/07/01 y pido del 2021/01/01 al 2022/07/01 únicamente debo pedir del 2021/01/01 al 2021/12/31.
- - Manejo de errores de red y reconexiones.
- - Visualización de parámetros técnicos.
-
-## Links útiles
-
- 1. [API de valores de finanzas] (https://polygon.io/docs/stocks/getting-started).
- 2. [Libreria de base de datos] (https://docs.python.org/3/library/sqlite3.html).
