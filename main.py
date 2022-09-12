@@ -71,6 +71,7 @@ opcion=imprimir_Menu_Ppal()     #se llama al Menú Principal para elejir las opc
 while opcion =="1" or opcion =="2":
     if opcion=="1":
         nombre_ticker=input("Ingrese ticker a pedir: ")
+        print("\n")
         nombre_ticker=nombre_ticker.upper()
 
         existe=existe_ticker(nombre_ticker)
@@ -236,19 +237,12 @@ while opcion =="1" or opcion =="2":
 
         Total_Tickers=pd.DataFrame(data=datos)
         Resumen_Tickers=pd.DataFrame(data=datos2)
-#        Total_Tickers=Total_Tickers.set_index("Ticker")
+
 
         opcion2=imprimir_Menu_Visualiz()
 
         while opcion2 =="1" or opcion2 =="2":
             if opcion2=="1":
-                #HASTA ACA SE PUEDE VER RESUMEN DE TICKERS SIN DEPURAR (AGREGAR A INFORME ESTA PARTE)
-#                Resumen_Tickers = Resumen_Tickers.sort_values(['Ticker','Fecha_Inicio'], ascending=False)
-#                print("Resumen sin depurar")
-#                print(Resumen_Tickers)
-#                print("\n")
-#                print("Resumen depurado")
-
                 Tickers_Total_total=depurar_Resumen()
 
                 blankIndex=[''] * len(Tickers_Total_total)     #elimino el numero de fila (indice) para imprimir el dataframe
@@ -262,13 +256,11 @@ while opcion =="1" or opcion =="2":
 
                 opcion2=imprimir_Menu_Visualiz()    #Se vuelve a mostrar el Menú de Visualización
 
-
-
-
             elif opcion2=="2":
                 Total_Tickers=pd.DataFrame(data=datos)
                 #_____GRAFICO DE DATOS DE TICKER SELECCIONADO POR USUARIO_____
                 grafico_ticker=input("Ingrese el Ticker a graficar: ")
+                print("\n")
                 grafico_ticker=grafico_ticker.upper()
 
                 if Total_Tickers.empty: 
@@ -286,7 +278,6 @@ while opcion =="1" or opcion =="2":
                
                     plt.figure(figsize=(12, 6), dpi=80)
                     plt.plot(x, y1, color="blue", linewidth=2.5, label="Cierre")
- #                   plt.plot(x, y2, color="#808080", linewidth=2, label="Apertura")
                     plt.plot(x, y3, color="red", linewidth=1.5, label="Bajo")
                     plt.plot(x, y4, color="#228B22", linewidth=1.5, label="Alto")
 
