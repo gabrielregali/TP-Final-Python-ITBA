@@ -35,3 +35,4 @@ def crear_tabla_db():
     """)
     con.close()
     return
+
