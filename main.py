@@ -298,3 +298,4 @@ while opcion =="1" or opcion =="2":
                 opcion2=imprimir_Menu_Visualiz()    #Se vuelve a mostrar el Menú de Visualización
 
         opcion=imprimir_Menu_Ppal()      #se llama el Menú Principal
+        
