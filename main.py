@@ -3,6 +3,7 @@ from crear_tabla_db import crear_tabla_db
 from existe_ticker import existe_ticker
 from imprimir_Menu_Ppal import imprimir_Menu_Ppal
 from imprimir_Menu_Visualiz import imprimir_Menu_Visualiz
+from param_tec import param_tec
 
 import requests
 from datetime import datetime, timedelta
@@ -287,6 +288,8 @@ while opcion =="1" or opcion =="2":
                     plt.xlabel('Fecha')
                     plt.ylabel('Precio (USD)')
                     plt.show()
+                    
+                    param_tec(datos, grafico_ticker)     #llamo a esta función para visualizar parámetros técnicos del ticker                    
                 else:                  
                     print("El ticker ingresado no posee datos guardados")
 
