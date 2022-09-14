@@ -329,4 +329,20 @@ Cuando el usuario ingresa una fecha de inicio mayor a la fecha de fin:
 ## Desarrolladores del Proyecto
 El código de este programa, y el informe de funcionalidad y diseño, fue realizado en su totalidad por Gabriel Alfredo Regali (https://github.com/gabrielregali) .
 
+## Repositorio de Github
+En el repositorio de github se encuentran los siguientes archivos (https://github.com/gabrielregali/TP-Final-Python-ITBA):
 
+- README.md:  Informe de funcionalidad y diseño.
+- Consigna TP Final.md: Consigna TP Final Certificación Profesional Python.
+
+- main.py: Script que contiene el programa principal del proyecto.
+- crear_tabla_db.py: Script que contiene la función encargada de la creación de tablas en la base de datos.
+- depurar_resumen.py: Script que contiene la función encargada de la depuración y optimización de los datos para Menú Resumen.
+- existe_ticker.py: Script que contiene la función encargada de verificar si existe el ticker solicitado en API de Polygon.io
+- imprimir_Menu_Ppal.py: Script que contiene la función encargada de imprimir el Menú Principal y solicitar una elección al usuario.
+- imprimir_Menu_Visualiz.py: Script que contiene la función encargada de imprimir el Menú de Visualización y solicitar una elección al usuario.
+- param_tec.py: Script que contiene la función encargada de calcular y graficar parámetros técnicos (SMA, EMA, Variación Porcentual, todos calculado sobre el Precio de Cierre).
+
+- Base de datos SQL llamada "TICKERS" (posee las tablas "tickers", "resumen" y "final"), en la cual se puede verificar que se grabaron los datos mediante el código de Python y que se puede utilizar para probar las visualizaciones, con datos ya solicitados al API durante las pruebas realizadas al programar el código del proyecto.
+
+- Notebook de Google Colab (.ipynb) con el programa completo del proyecto.
