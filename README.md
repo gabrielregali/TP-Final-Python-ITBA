@@ -277,7 +277,6 @@ En el caso que presione "1" se entra en el cuerpo del if el cual se encarga de g
 La media móvil simple (SMA) se calculó utilizando el método .rolling de Pandas, empleando una ventana de 5 días y un número mínimo de períodos de 1.
 La media móvil exponencial (EMA) se calculó utilizando el método .ewm , empleando un factor de suavizado (alpha) de 0.1.
 Ambos parámetros se graficaron en el subplot 1 de 2, junto al Precio de Cierre (este valor posee un ancho de linea menor).
-
 https://towardsdatascience.com/moving-averages-in-python-16170e20f6c
 
 - Variación Porcentual del Precio de Cierre
