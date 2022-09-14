@@ -7,7 +7,7 @@ Se implementa un programa en código Python, que lee datos de una API de finanza
 
 ## Consideraciones iniciales
 
-El código se programó y probó en primera instancia en notebooks de Google Colab (https://colab.research.google.com/). Luego se probó y modularizó en el IDE Spyder versión 4.2.5, perteneciente a la distribución libre Anaconda (https://www.anaconda.com/products/distribution).
+El código se programó y probó en primera instancia en notebooks de Google Colab (https://colab.research.google.com/). Luego se probó y modularizó en el IDE Spyder versión 4.2.5, perteneciente a la distribución libre Anaconda (https://www.anaconda.com/products/distribution). Finalmente se probó en un notebook de Jupyter.
 Las imágenes que se encuentran en este informe corresponden a capturas de pantalla de Google Colab y del IDE Spyder.
 
 
@@ -258,11 +258,34 @@ Cuando se ejecuta el código descripto anteriormente, se observa lo siguiente:
 
 ![image](https://user-images.githubusercontent.com/88169218/189549725-c3cff04d-a8e9-446d-954b-5b00d0a7df1e.png)
 
+#### Función param_tec (Extra)
+Esta función se encarga de graficar parámetros técnicos, en el caso que lo desee el usuario. 
+Estos parámetros son la Variación Porcentual del Precio de Cierre de una Fecha a la siguiente que este guardada en la base de datos, 
+la media móvil simple (SMA por sus iniciales en inglés), y la media móvil exponencial (EMA por sus iniciales en inglés).
 
+Luego de graficar el ticker solicitado por el usuario, se pregunta si desea visualizar parámetros técnicos de ete mismo ticker. 
+En el caso que presione "1" se entra en el cuerpo del if el cual se encarga de graficar los parámetros mencionados. Si se presiona otra tecla diferente a "1" se vuelve al Menú de Visualización.
 
+![image](https://user-images.githubusercontent.com/88169218/190029335-2d1627e6-bbaf-4361-ab87-98d358dbd9c1.png)
 
+![image](https://user-images.githubusercontent.com/88169218/190029394-948978fa-2f47-4de8-99c6-b20551889789.png)
 
+- Media móvil simple (SMA), y Media móvil exponencial (EMA).
+La media móvil simple (SMA) se calculó utilizando el método .rolling de Pandas, empleando una ventana de 5 días y un número mínimo de períodos de 1.
+La media móvil exponencial (EMA) se calculó utilizando el método .ewm , empleando un factor de suavizado (alpha) de 0.1.
+Ambos parámetros se graficaron en el subplot 1 de 2, junto al Precio de Cierre (este valor posee un ancho de linea menor).
+https://towardsdatascience.com/moving-averages-in-python-16170e20f6c
 
+- Variación Porcentual del Precio de Cierre
+Se calcula utilizando el método .pct_change() de Pandas, el cual calcula la variación porcentual del Precio de Cierre de un día al siguiente inmediato.
+Este parámetro se gráfica en el subplot 2 de 2.
+https://programmerclick.com/article/81251862314/
+
+Cuando se ejecuta el código descripto anteriormente, se observa lo siguiente en el programa:
+
+![image](https://user-images.githubusercontent.com/88169218/190031003-3e684ed9-0ee9-493f-a33e-92135617bb03.png)
+
+![image](https://user-images.githubusercontent.com/88169218/190031027-7da40c64-0ece-4702-9614-d3d580c9d455.png)
 
 
 
@@ -283,7 +306,7 @@ Se le indica este error al usuario y se le solicita que ingrese las fechas nueva
 
 ![image](https://user-images.githubusercontent.com/88169218/189551357-726df78f-3d6c-44f7-9c4f-8c37f849d1ea.png)
 
-Cuando se ejecuta el código descripto anteriormente, correspondiente a errores del usuario al ingresar las fechhas se observa lo siguiente:
+Cuando se ejecuta el código descripto anteriormente, correspondiente a errores del usuario al ingresar las fechas se observa lo siguiente:
 
 Cuando el usuario ingresa caracteres alfanuméricos en vez de fechas:
 
