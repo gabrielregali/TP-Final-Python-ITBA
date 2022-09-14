@@ -11,4 +11,4 @@ def existe_ticker(nombre_ticker):
         else:                                     #si el ticker ingresado existe
             print("El ticker ingresado corresponde a la empresa: ", json_obj['results']['name']+"\n")
             return True
-
+        
