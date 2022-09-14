@@ -44,7 +44,7 @@ def depurar_Resumen():
         WHERE resumen.Ticker='{p}';
         """)
 
-        for row in res3:
+        for row in res4:
             fit = parse(row[1])
             fi = datetime.date(fit) 
             fientt=int(fi.strftime("%Y%m%d"))
@@ -60,7 +60,7 @@ def depurar_Resumen():
         ticresum_por_ticker.append(ticresum)
         fechaini_por_ticker.append(fecha_ini)
         fechafin_por_ticker.append(fecha_fin)
-
+        
         fecha_ini=[]
         fecha_fin=[]
         ticresum=[]
