@@ -6,3 +6,4 @@ def imprimir_Menu_Ppal():
     opcion1=input("Ingrese una Opción (1 o 2). Presiona cualquier otra tecla para salir: ")
     print("\n")
     return opcion1
+
