@@ -40,3 +40,4 @@ def param_tec(datos, grafico_ticker):
     else:
         None
         return
+    
