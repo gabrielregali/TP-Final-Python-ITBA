@@ -16,7 +16,7 @@ Las imágenes que se encuentran en este informe corresponden a capturas de panta
 
 ## Descripción del código en Python del programa
 
-El corazón del programa es el script denominado "Main.py", el cual realiza el llamado a funciones, que serán descriptas más adelante en este informe.
+El corazón del programa es el script denominado "main.py", el cual realiza el llamado a funciones, que serán descriptas más adelante en este informe.
 
 Este script comienza con la declaración de la Clase Ticker, la declaración de la función "guardar_datos_db", para luego comenzar con el llamado a la función "crear_tabla_db". Luego de esto realiza el llamado a la función "imprimir_Menu_Ppal".
 
@@ -275,18 +275,14 @@ En el caso que presione "1" se entra en el cuerpo del if el cual se encarga de g
 
 - Media móvil simple (SMA), y Media móvil exponencial (EMA).
 La media móvil simple (SMA) se calculó utilizando el método .rolling de Pandas, empleando una ventana de 5 días y un número mínimo de períodos de 1.
-
 La media móvil exponencial (EMA) se calculó utilizando el método .ewm , empleando un factor de suavizado (alpha) de 0.1.
-
 Ambos parámetros se graficaron en el subplot 1 de 2, junto al Precio de Cierre (este valor posee un ancho de linea menor).
 
 https://towardsdatascience.com/moving-averages-in-python-16170e20f6c
 
 - Variación Porcentual del Precio de Cierre
 Se calcula utilizando el método .pct_change() de Pandas, el cual calcula la variación porcentual del Precio de Cierre de un día al siguiente inmediato.
-
 Este parámetro se gráfica en el subplot 2 de 2.
-
 https://programmerclick.com/article/81251862314/
 
 Cuando se ejecuta el código descripto anteriormente, se observa lo siguiente en el programa:
