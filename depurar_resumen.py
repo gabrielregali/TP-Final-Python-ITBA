@@ -157,3 +157,4 @@ def depurar_Resumen():
 
     Tickers_Total_total = Tickers_Total_total.sort_values(['Ticker', 'Fecha_Inicio'],ascending=True)
     return Tickers_Total_total
+
